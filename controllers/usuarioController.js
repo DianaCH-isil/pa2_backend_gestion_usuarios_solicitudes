@@ -33,8 +33,28 @@ exports.listarUsuarios = async (_req, res) => {
   }
 };
 
+exports.obtenerUsuario = async (req, res) => {
+    try {
+        const usuarioEncontrado = await usuario.findById(req.params.id);
+        if (!usuarioEncontrado) {
+            return res.status(404).json({ error: 'Usuario no encontrado' });
+        }
+        res.status(200).json(usuarioEncontrado);
+    }
+    catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+};
 
-//FALTA
-//listar usuarios - get
-//eliminar usuario - delete
-//obtener usuario por id - get
+exports.eliminarUsuario = async (req, res) => {
+    try {
+        const usuarioEliminado = await usuario.findByIdAndDelete(req.params.id);
+        if (!usuarioEliminado) {
+            return res.status(404).json({ error: 'Usuario no encontrado' });
+        }
+        res.status(200).json({ mensaje: 'Usuario eliminado correctamente' });
+    }
+    catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+};
