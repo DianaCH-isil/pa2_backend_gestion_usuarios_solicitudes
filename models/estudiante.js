@@ -28,13 +28,3 @@ const estudianteSchema = new mongoose.Schema(
 );
 
 module.exports = mongoose.model('Estudiante', estudianteSchema);
-
-//ejemplo de objeto de estudiante
-// {
-//     correoUsuario: 'valeria@isil.pe',
-//     codigo: 'ISIL-742910',
-//     nombre: 'Valeria Restrepo',
-//     carrera: 'Ingeniería de Sistemas',
-//     email: 'valeria.restrepo@isil.pe',
-//     avatarUrl: 'user.png'
-//   },

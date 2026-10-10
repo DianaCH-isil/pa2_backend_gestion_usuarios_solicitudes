@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const { validationResult } = require('express-validator');
 const Solicitud = require('../models/solicitud');
 const Estudiante = require('../models/estudiante');
 
@@ -41,9 +40,97 @@ function serializarSolicitud(doc) {
   return obj;
 }
 
-//FALTA
 //Enpoint: GET /api/solicitudes - listarSolicitudes
-//Enpoint: GET /api/solicitudes/:id -   obtenerSolicitudPorId
+exports.listarSolicitudes = async (req, res) => {
+  try {
+    const solicitudes = await Solicitud.find()
+      .populate('estudianteId');
+
+    const resultado = solicitudes.map(serializarSolicitud);
+
+    res.status(200).json(resultado);
+  } catch (error) {
+    res.status(500).json({
+      mensaje: 'Error al listar las solicitudes',
+      error: error.message
+    });
+  }
+};
+
 //POST /api/solicitudes - crearSolicitud
+exports.crearSolicitud = async (req, res) => {
+  try {
+    const {
+      tipoTramite,
+      descripcionDetalle,
+      estudianteId,
+      justificacion,
+      estado
+    } = req.body;
+
+    if (
+      !tipoTramite ||
+      !descripcionDetalle ||
+      !estudianteId ||
+      !justificacion
+    ) {
+      return res.status(400).json({
+        mensaje: 'Todos los campos obligatorios deben estar completos'
+      });
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(estudianteId)) {
+      return res.status(400).json({
+        mensaje: 'El ID del estudiante no es válido'
+      });
+    }
+
+    const estudiante = await Estudiante.findById(estudianteId);
+
+    if (!estudiante) {
+      return res.status(404).json({
+        mensaje: 'No se encontró el estudiante'
+      });
+    }
+
+    if (estado && !ESTADOS_VALIDOS.includes(estado)) {
+      return res.status(400).json({
+        mensaje: 'El estado de la solicitud no es válido'
+      });
+    }
+
+    const nuevaSolicitud = new Solicitud({
+      codigoRadicado: await generarProximoRadicado(),
+      tipoTramite,
+      descripcionDetalle,
+      fechaRadicacion: obtenerFechaActualFormateada(),
+      estado: estado || 'Pendiente',
+      estudianteId,
+      justificacion
+    });
+
+    await nuevaSolicitud.save();
+
+    await nuevaSolicitud.populate('estudianteId');
+
+    res.status(201).json(serializarSolicitud(nuevaSolicitud));
+  } catch (error) {
+    if (error.name === 'ValidationError' ||
+        error.code === 11000) {
+      return res.status(400).json({
+        mensaje: 'Error en los datos de la solicitud',
+        error: error.message
+      });
+    }
+
+    res.status(500).json({
+      mensaje: 'Error al crear la solicitud',
+      error: error.message
+    });
+  }
+};
+
+//FALTA
+//Enpoint: GET /api/solicitudes/:id -   obtenerSolicitudPorId
 //PATCH /api/solicitudes/:id -  actualizarSolicitud
 //DELETE /api/solicitudes/:id - eliminarSolicitud
