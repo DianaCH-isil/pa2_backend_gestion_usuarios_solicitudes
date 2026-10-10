@@ -5,6 +5,7 @@ require('dotenv').config();
 const connectDB = require('./config/database');
 const usuarioRoutes = require('./routes/usuarioRoutes');
 const estudianteRoutes = require('./routes/estudianteRoutes');
+const solicitudRoutes = require('./routes/solicitudRoutes');
 const app = express();
 
 app.use(helmet());
@@ -17,6 +18,7 @@ app.get('/health', (req, res) => {
 
 app.use('/api', usuarioRoutes);
 app.use('/api', estudianteRoutes);
+app.use('/api', solicitudRoutes);
 
 async function iniciarServidor() {
     try {
