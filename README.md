@@ -6,7 +6,7 @@
 |---|---|---|
 | Diana Clabel | Developer / Backend | Estructura del proyecto, modelos, conexión a MongoDB, crear y modificar usuario. |
 | Roberto Palacios | Developer / Backend | Endpoints de usuarios (obtener por id y eliminar), pruebas HTTP y README. |
-| [Nombre] | Developer / Backend | Endpoints de solicitudes: listar y crear. |
+| Giancarlo Quispe Quiroz | Developer / Backend | Endpoints de solicitudes: obtener por ID, actualizar y eliminar. |
 | [Nombre] | Developer / Backend | Endpoints de solicitudes: obtener por id y eliminar. |
 | [Nombre] | Developer / Backend | Implementación de autenticación con JWT. |
 
