@@ -1,32 +1,57 @@
 const jwt = require('jsonwebtoken');
+const Usuario = require('../models/usuario');
 
-const verifyToken = (req, res, next) => {
-  const authHeader = req.headers['authorization'];
-  if (!authHeader) {
-    return res.status(401).json({ mensaje: 'Acceso denegado. No se encontró token.' });
-  }
-
-  const token = authHeader.split(' ')[1];
-  if (!token) {
-    return res.status(401).json({ mensaje: 'Formato de token inválido.' });
-  }
-
+async function verificarToken(req, res, next) {
   try {
-    const verified = jwt.verify(token, process.env.JWT_SECRET || 'clave_secreta_por_defecto');
-    req.user = verified;
+    const authHeader = req.headers.authorization || '';
+    const [scheme, token] = authHeader.split(' ');
+
+    if (scheme !== 'Bearer' || !token) {
+      return res.status(401).json({
+        error: 'No autorizado',
+        mensaje: 'Debe enviar un token JWT en el header Authorization: Bearer <token>'
+      });
+    }
+
+    const payload = jwt.verify(token, process.env.JWT_SECRET);
+    const usuario = await Usuario.findById(payload.sub);
+
+    if (!usuario) {
+      return res.status(401).json({
+        error: 'No autorizado',
+        mensaje: 'El usuario asociado al token ya no existe'
+      });
+    }
+
+    req.usuario = usuario;
     next();
   } catch (error) {
-    res.status(403).json({ mensaje: 'Token inválido o expirado.' });
+    return res.status(401).json({
+      error: 'No autorizado',
+      mensaje: 'Token inválido o expirado',
+      detalle: error.message
+    });
   }
-};
+}
 
-const verifyRole = (requiredRole) => {
+function verificarRol(...rolesPermitidos) {
   return (req, res, next) => {
-    if (!req.user || req.user.role !== requiredRole) {
-      return res.status(403).json({ mensaje: 'No tienes permisos de administrador.' });
+    if (!req.usuario) {
+      return res.status(401).json({
+        error: 'No autorizado',
+        mensaje: 'Se requiere autenticación previa'
+      });
     }
+
+    if (!rolesPermitidos.includes(req.usuario.rol)) {
+      return res.status(403).json({
+        error: 'Acceso denegado',
+        mensaje: `Esta acción requiere uno de los roles: ${rolesPermitidos.join(', ')}`
+      });
+    }
+
     next();
   };
-};
+}
 
-module.exports = { verifyToken, verifyRole };
+module.exports = { verificarToken, verificarRol };
