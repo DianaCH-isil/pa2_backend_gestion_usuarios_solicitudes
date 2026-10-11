@@ -1,12 +1,20 @@
-const express = require('express');
-const router = express.Router();
+router.get('/', listarSolicitudes);
+router.get('/:id', obtenerSolicitud);
 
-const {
-  listarSolicitudes,
+router.post(
+  '/',
+  [
+    body('tipoTramite').isString().trim().notEmpty().withMessage('tipoTramite es obligatorio'),
+    body('justificacion')
+      .isString()
+      .trim()
+      .isLength({ min: 5 })
+      .withMessage('La justificación debe tener al menos 5 caracteres'),
+    body('estudianteCodigo')
+      .isString()
+      .trim()
+      .notEmpty()
+      .withMessage('estudianteCodigo es obligatorio')
+  ],
   crearSolicitud
-} = require('../controllers/solicitudController');
-
-router.get('/solicitudes', listarSolicitudes);
-router.post('/solicitudes', crearSolicitud);
-
-module.exports = router;
+);
