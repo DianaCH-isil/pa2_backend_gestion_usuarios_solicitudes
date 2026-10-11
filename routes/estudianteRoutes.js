@@ -7,13 +7,21 @@ const {
   modificarEstudiante,
   eliminarEstudiante
 } = require('../controllers/estudianteController');
+const { verificarToken, verificarRol } = require('../middlewares/auth');
 
+/**
+ * GET  /api/estudiantes           (público)
+ * GET  /api/estudiantes/:codigo   (público)
+ * POST /api/estudiantes           (admin o personal)
+ * PUT  /api/estudiantes/:id       (admin o personal)
+ * DEL  /api/estudiantes/:id       (admin)
+ */
+router.get('/', listarEstudiantes);
+router.get('/:codigo', obtenerEstudiantePorCodigo);
 
-router.get('/estudiantes', listarEstudiantes);
-router.get('/estudiantes/:id', obtenerEstudiantePorCodigo);
-
-router.post('/estudiantes', crearEstudiante);
-router.put('/estudiantes/:id', modificarEstudiante);
-router.delete('/estudiantes/:id', eliminarEstudiante);
+router.post('/', verificarToken, verificarRol('administrador', 'personal'), crearEstudiante);
+router.put('/:id', verificarToken, verificarRol('administrador', 'personal'), modificarEstudiante);
+router.delete('/:id', verificarToken, verificarRol('administrador'), eliminarEstudiante);
 
 module.exports = router;
+
