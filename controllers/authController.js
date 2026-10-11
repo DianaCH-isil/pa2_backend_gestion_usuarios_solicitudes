@@ -1,63 +1,91 @@
-const User = require('../models/userModel'); // Ajusta según el modelo de tu grupo
-const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { validationResult } = require('express-validator');
+const Usuario = require('../models/usuario');
 
-// Registrar usuario con contraseña cifrada
-const register = async (req, res) => {
+/**
+ * Genera un JWT firmado con el payload del usuario.
+function generarToken(usuario) {
+  return jwt.sign(
+    {
+      sub: usuario._id.toString(),
+      correo: usuario.correo,
+      rol: usuario.rol
+    },
+    process.env.JWT_SECRET,
+    { expiresIn: process.env.JWT_EXPIRES_IN || '2h' }
+  );
+}
+
+/**
+ * POST /api/auth/register
+exports.registrar = async (req, res) => {
+  const errores = validationResult(req);
+  if (!errores.isEmpty()) {
+    return res.status(400).json({ error: 'Error de validación', detalles: errores.array() });
+  }
+
   try {
-    const { nombre, email, password, role } = req.body;
+    const { nombre, correo, password, rol } = req.body;
 
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res.status(400).json({ mensaje: 'El correo ya está registrado.' });
+    const existente = await Usuario.findOne({ correo: correo.toLowerCase() });
+    if (existente) {
+      return res.status(409).json({
+        error: 'Correo duplicado',
+        mensaje: 'Ya existe un usuario registrado con ese correo.'
+      });
     }
 
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
+    const nuevoUsuario = new Usuario({ nombre, correo, password, rol });
+    await nuevoUsuario.save(); // el pre-save hashea la contraseña
 
-    const newUser = new User({
-      nombre,
-      email,
-      password: hashedPassword,
-      role: role || 'user'
+    const token = generarToken(nuevoUsuario);
+
+    return res.status(201).json({
+      mensaje: 'Usuario registrado correctamente',
+      usuario: nuevoUsuario.toJSON(),
+      token
     });
-
-    await newUser.save();
-    res.status(201).json({ mensaje: 'Usuario registrado exitosamente', userId: newUser._id });
   } catch (error) {
-    res.status(500).json({ mensaje: 'Error al registrar el usuario', error: error.message });
+    return res.status(500).json({ error: 'Error al registrar', mensaje: error.message });
   }
 };
 
-// Iniciar sesión y generar JWT
-const login = async (req, res) => {
+exports.login = async (req, res) => {
+  const errores = validationResult(req);
+  if (!errores.isEmpty()) {
+    return res.status(400).json({ error: 'Error de validación', detalles: errores.array() });
+  }
+
   try {
-    const { email, password } = req.body;
+    const { correo, password } = req.body;
+    const usuario = await Usuario.findOne({ correo: correo.toLowerCase() });
 
-    const user = await User.findOne({ email });
-    if (!user) {
-      return res.status(400).json({ mensaje: 'Credenciales inválidas.' });
+    if (!usuario) {
+      return res.status(401).json({
+        error: 'Credenciales inválidas',
+        mensaje: 'No existe un usuario con ese correo.'
+      });
     }
 
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      return res.status(400).json({ mensaje: 'Credenciales inválidas.' });
+    const ok = await usuario.compararPassword(password);
+    if (!ok) {
+      return res.status(401).json({
+        error: 'Credenciales inválidas',
+        mensaje: 'La contraseña es incorrecta.'
+      });
     }
 
-    const token = jwt.sign(
-      { id: user._id, email: user.email, role: user.role },
-      process.env.JWT_SECRET || 'clave_secreta_por_defecto',
-      { expiresIn: '2h' }
-    );
+    const token = generarToken(usuario);
 
-    res.json({
+    return res.status(200).json({
       mensaje: 'Inicio de sesión exitoso',
-      token,
-      usuario: { id: user._id, nombre: user.nombre, email: user.email, role: user.role }
+      usuario: usuario.toJSON(),
+      token
     });
   } catch (error) {
-    res.status(500).json({ mensaje: 'Error al iniciar sesión', error: error.message });
+    return res.status(500).json({ error: 'Error al iniciar sesión', mensaje: error.message });
   }
 };
-
-module.exports = { register, login };
+exports.perfil = async (req, res) => {
+  return res.status(200).json({ usuario: req.usuario.toJSON() });
+};
