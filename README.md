@@ -61,7 +61,8 @@ No publicar contraseñas, tokens, credenciales ni datos sensibles.
 | POST | /api/solicitudes | Crear solicitud | [ ] |
 | GET | /api/solicitudes | Listar solicitudes | [ ] |
 | GET | /api/solicitudes/:id | Obtener solicitud por id | [ ] |
-| DELETE | /api/solicitudes/:id | Eliminar solicitud | [ ] |
+| PATCH | /api/solicitudes/:id | Actualizar solicitud | [] |
+| DELETE | /api/solicitudes/:id | Eliminar solicitud | [] |
 | POST | /api/[login] | Iniciar sesión y obtener JWT | No |
 
 **Por actividad**
@@ -77,7 +78,7 @@ Capturas de pruebas: [carpeta `evidencias/` o enlaces].
 |---|---|---|---|---|---|
 | Diana Clabel | Alta | Media | Media | [Sí/No] | Commit inicial: estructura, modelos, crear y modificar usuario |
 | Roberto Palacios | Alta | Alta | Alta | [Sí/No] | Rama `feature/usuarios-readme`: obtener y eliminar usuario, README |
-| [Nombre] | [ ] | [ ] | [ ] | [ ] | [ ] |
+| Giancarlo Quispe Quiroz | Alta | Alta | Media | [Sí/No] | Rama `feat/solicitudes-crud`: endpoints de solicitudes por ID, actualizar y eliminar; pruebas HTTP con Postman |
 | [Nombre] | [ ] | [ ] | [ ] | [ ] | [ ] |
 | [Nombre] | [ ] | [ ] | [ ] | [ ] | [ ] |
 
