@@ -2,8 +2,7 @@ const jwt = require('jsonwebtoken');
 const { validationResult } = require('express-validator');
 const Usuario = require('../models/usuario');
 
-/**
- * Genera un JWT firmado con el payload del usuario.
+
 function generarToken(usuario) {
   return jwt.sign(
     {
@@ -16,8 +15,6 @@ function generarToken(usuario) {
   );
 }
 
-/**
- * POST /api/auth/register
 exports.registrar = async (req, res) => {
   const errores = validationResult(req);
   if (!errores.isEmpty()) {
@@ -49,6 +46,7 @@ exports.registrar = async (req, res) => {
     return res.status(500).json({ error: 'Error al registrar', mensaje: error.message });
   }
 };
+
 
 exports.login = async (req, res) => {
   const errores = validationResult(req);
@@ -86,6 +84,7 @@ exports.login = async (req, res) => {
     return res.status(500).json({ error: 'Error al iniciar sesión', mensaje: error.message });
   }
 };
+
 exports.perfil = async (req, res) => {
   return res.status(200).json({ usuario: req.usuario.toJSON() });
 };

@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const Usuario = require('../models/usuario');
 
+
 async function verificarToken(req, res, next) {
   try {
     const authHeader = req.headers.authorization || '';
@@ -33,6 +34,7 @@ async function verificarToken(req, res, next) {
     });
   }
 }
+
 
 function verificarRol(...rolesPermitidos) {
   return (req, res, next) => {

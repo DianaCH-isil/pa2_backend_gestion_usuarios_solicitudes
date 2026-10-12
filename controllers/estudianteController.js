@@ -1,6 +1,9 @@
 const Estudiante = require('../models/estudiante');
+const Usuario = require('../models/usuario');
+const Solicitud = require('../models/solicitud');
 
-
+//GET /api/estudiantes
+ 
 exports.listarEstudiantes = async (_req, res) => {
   try {
     const estudiantes = await Estudiante.find().sort({ createdAt: -1 });
@@ -10,7 +13,8 @@ exports.listarEstudiantes = async (_req, res) => {
   }
 };
 
-
+//GET /api/estudiantes/:codigo
+ 
 exports.obtenerEstudiantePorCodigo = async (req, res) => {
   try {
     const codigo = String(req.params.codigo || '').trim().toUpperCase();
@@ -27,7 +31,8 @@ exports.obtenerEstudiantePorCodigo = async (req, res) => {
   }
 };
 
-
+// POST /api/estudiantes
+ 
 exports.crearEstudiante = async (req, res) => {
   try {
     const nuevo = await Estudiante.create(req.body);
@@ -37,13 +42,25 @@ exports.crearEstudiante = async (req, res) => {
   }
 };
 
-
+//PUT /api/estudiantes/:id
+ 
 exports.modificarEstudiante = async (req, res) => {
   try {
-    const actualizado = await Estudiante.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-      runValidators: true
-    });
+    const nombre = req.body?.nombre != null ? String(req.body.nombre).trim() : '';
+    const carrera = req.body?.carrera != null ? String(req.body.carrera).trim() : '';
+
+    if (!nombre || !carrera) {
+      return res.status(400).json({
+        error: 'Datos incompletos',
+        mensaje: 'nombre y carrera son obligatorios.'
+      });
+    }
+
+    const actualizado = await Estudiante.findByIdAndUpdate(
+      req.params.id,
+      { nombre, carrera },
+      { new: true, runValidators: true }
+    );
     if (!actualizado) {
       return res.status(404).json({ error: 'No encontrado', mensaje: 'Estudiante no encontrado' });
     }
@@ -53,14 +70,27 @@ exports.modificarEstudiante = async (req, res) => {
   }
 };
 
-
+//DELETE /api/estudiantes/:id
+ 
 exports.eliminarEstudiante = async (req, res) => {
   try {
-    const eliminado = await Estudiante.findByIdAndDelete(req.params.id);
-    if (!eliminado) {
+    const estudiante = await Estudiante.findById(req.params.id);
+    if (!estudiante) {
       return res.status(404).json({ error: 'No encontrado', mensaje: 'Estudiante no encontrado' });
     }
-    return res.status(200).json({ mensaje: 'Estudiante eliminado', id: eliminado._id });
+
+    await Solicitud.deleteMany({ estudianteId: estudiante._id });
+
+    if (estudiante.usuarioId) {
+      await Usuario.findByIdAndDelete(estudiante.usuarioId);
+    }
+
+    await Estudiante.findByIdAndDelete(estudiante._id);
+
+    return res.status(200).json({
+      mensaje: 'Estudiante y cuenta eliminados',
+      id: estudiante._id
+    });
   } catch (error) {
     return res.status(400).json({ error: 'Error al eliminar estudiante', mensaje: error.message });
   }

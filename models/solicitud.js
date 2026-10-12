@@ -26,4 +26,14 @@ const solicitudSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+solicitudSchema.set('toJSON', {
+  virtuals: true,
+  transform: (_doc, ret) => {
+    ret.id = ret._id;
+    delete ret._id;
+    delete ret.__v;
+    return ret;
+  }
+});
+
 module.exports = mongoose.model('Solicitud', solicitudSchema);

@@ -27,4 +27,16 @@ const estudianteSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+/**
+ * cambiar el formrto:  usa id en lugar de `_id` y elimina campos internos.
+ */
+estudianteSchema.set('toJSON', {
+  transform: (_doc, ret) => {
+    ret.id = ret._id;
+    delete ret._id;
+    delete ret.__v;
+    return ret;
+  }
+});
+
 module.exports = mongoose.model('Estudiante', estudianteSchema);

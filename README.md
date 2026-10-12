@@ -4,7 +4,7 @@
 ## 1. Integrantes
 | Integrante | Rol | Aporte principal |
 |---|---|---|
-| Diana Clabel | Developer / Backend | Estructura del proyecto, modelos, conexión a MongoDB, crear y modificar usuario. |
+| Diana Clabel | Developer / Backend | Modelos, conexión a MongoDB, CRUD estudiante, crear y eliminar usuario, Implementación auth. |
 | Roberto Palacios | Developer / Backend | Endpoints de usuarios (obtener por id y eliminar), pruebas HTTP y README. |
 | Giancarlo Quispe Quiroz | Developer / Backend | Endpoints de solicitudes: obtener por ID, actualizar y eliminar. |
 | [Nombre] | Developer / Backend | Endpoints de solicitudes: obtener por id y eliminar. |
