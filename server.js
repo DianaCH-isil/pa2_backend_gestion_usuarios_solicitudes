@@ -6,6 +6,10 @@ const connectDB = require('./config/database');
 const usuarioRoutes = require('./routes/usuarioRoutes');
 const estudianteRoutes = require('./routes/estudianteRoutes');
 const solicitudRoutes = require('./routes/solicitudRoutes');
+
+// Importa tu ruta de autenticación para el manejo de JWT
+const authRoutes = require('./routes/authRoutes');
+
 const app = express();
 
 app.use(helmet());
@@ -19,6 +23,9 @@ app.get('/health', (req, res) => {
 app.use('/api', usuarioRoutes);
 app.use('/api', estudianteRoutes);
 app.use('/api', solicitudRoutes);
+
+// Registra la ruta de autenticación (quedará accesible en /api/auth/register y /api/auth/login)
+app.use('/api/auth', authRoutes);
 
 async function iniciarServidor() {
     try {
@@ -36,6 +43,3 @@ async function iniciarServidor() {
 }
 
 iniciarServidor();
-
-
-
