@@ -8,7 +8,7 @@
 | Roberto Palacios | Developer / Backend | Endpoints de usuarios (obtener por id y eliminar), pruebas HTTP y README. |
 | Giancarlo Quispe Quiroz | Developer / Backend | Endpoints de solicitudes: obtener por ID, actualizar y eliminar. |
 | Jose Miguel Polick | Developer / Backend | Endpoints de solicitudes: listar y crear. |
-| Aaron Pereyra| Developer / Backend | Implementación de autenticación con JWT. |
+| Aaron Pereyra Cabrejos| Developer / Backend | Implementación de autenticación con JWT. |
 
 ## 2. Descripción y objetivo
 **Problema:** La plataforma de gestión de solicitudes académicas necesita una API que administre usuarios y solicitudes, conserve la información entre ejecuciones del servidor y proteja el acceso a los recursos.
@@ -80,7 +80,7 @@ Capturas de pruebas: [carpeta `evidencias/` o enlaces].
 | Roberto Palacios | Alta | Alta | Alta | [Sí/No] | Rama `feature/usuarios-readme`: obtener y eliminar usuario, README |
 | Giancarlo Quispe Quiroz | Alta | Alta | Media | [Sí/No] | Rama `feat/solicitudes-crud`: endpoints de solicitudes por ID, actualizar y eliminar; pruebas HTTP con Postman |
 | Jose Miguel Polick | Alta | Media | Media | [Sí/No] | Rama `feat/solicitudes-listar-crear`: endpoints de listar solicitudes y crear solicitudes |
-| [Nombre] | [ ] | [ ] | [ ] | [ ] | [ ] |
+| Aarón Pereyra Cabrejos | [Alta ] | [Media ] | [Sí/No ] | [Rama 'feat/auth-JWT]: endpoints de implementación de autenticación con JWT |
 
 ## 6. Video de exposición
 Video público de YouTube: 
