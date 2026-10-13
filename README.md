@@ -7,7 +7,7 @@
 | Diana Clabel | Developer / Backend | Modelos, conexión a MongoDB, CRUD estudiante, crear y eliminar usuario, Implementación auth. |
 | Roberto Palacios | Developer / Backend | Endpoints de usuarios (obtener por id y eliminar), pruebas HTTP y README. |
 | Giancarlo Quispe Quiroz | Developer / Backend | Endpoints de solicitudes: obtener por ID, actualizar y eliminar. |
-| [Nombre] | Developer / Backend | Endpoints de solicitudes: obtener por id y eliminar. |
+| Jose Miguel Polick | Developer / Backend | Endpoints de solicitudes: listar y crear. |
 | Aaron Pereyra| Developer / Backend | Implementación de autenticación con JWT. |
 
 ## 2. Descripción y objetivo
@@ -79,7 +79,7 @@ Capturas de pruebas: [carpeta `evidencias/` o enlaces].
 | Diana Clabel | Alta | Media | Media | [Sí/No] | Commit inicial: estructura, modelos, crear y modificar usuario |
 | Roberto Palacios | Alta | Alta | Alta | [Sí/No] | Rama `feature/usuarios-readme`: obtener y eliminar usuario, README |
 | Giancarlo Quispe Quiroz | Alta | Alta | Media | [Sí/No] | Rama `feat/solicitudes-crud`: endpoints de solicitudes por ID, actualizar y eliminar; pruebas HTTP con Postman |
-| [Nombre] | [ ] | [ ] | [ ] | [ ] | [ ] |
+| Jose Miguel Polick | Alta | Media | Media | [Sí/No] | Rama `feat/solicitudes-listar-crear`: endpoints de listar solicitudes y crear solicitudes |
 | [Nombre] | [ ] | [ ] | [ ] | [ ] | [ ] |
 
 ## 6. Video de exposición
