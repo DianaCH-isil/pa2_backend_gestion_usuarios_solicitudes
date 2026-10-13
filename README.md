@@ -108,7 +108,7 @@ carpeta `evidencias/` o enlaces a las colecciones de Postman.
 | Aaron Pereyra Cabrejos | Alta | Media | Alta | [Sí/No] | Serie de commits (`582be07`, `75566f8`, `fc7c365`, `beb0d93`, `9e34302`) (rama `feat/auth-JWT`): implementación completa del módulo de autenticación — `authController` con `registrar`y `login`; middleware `verificarToken`, `verificarRol(...roles)`;  integración de `authRoutes` en `server.js`;  |
 
 ## 6. Video de exposición
-Video público de YouTube: 
+Video público de YouTube: https://youtu.be/327YUPQtJ40
 
 ## 7. Conclusiones
 - **Servidor y CRUD (Actividad 1):** Express permitió organizar la API en rutas, controladores y middleware, separando la lógica de cada endpoint y facilitando el trabajo en equipo por ramas. La convención de carpetas (`routes/`, `controllers/`, `models/`, `middlewares/`) facilitó la integración sin conflictos.
