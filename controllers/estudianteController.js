@@ -6,6 +6,7 @@ const Solicitud = require('../models/solicitud');
  
 exports.listarEstudiantes = async (_req, res) => {
   try {
+    //orden descendente por fecha de creación
     const estudiantes = await Estudiante.find().sort({ createdAt: -1 });
     return res.status(200).json(estudiantes.map((e) => e.toJSON()));
   } catch (error) {
