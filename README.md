@@ -80,7 +80,7 @@ Capturas de pruebas: [carpeta `evidencias/` o enlaces].
 | Roberto Palacios | Alta | Alta | Alta | [Sí/No] | Rama `feature/usuarios-readme`: obtener y eliminar usuario, README |
 | Giancarlo Quispe Quiroz | Alta | Alta | Media | [Sí/No] | Rama `feat/solicitudes-crud`: endpoints de solicitudes por ID, actualizar y eliminar; pruebas HTTP con Postman |
 | Jose Miguel Polick | Alta | Media | Media | [Sí/No] | Rama `feat/solicitudes-listar-crear`: endpoints de listar solicitudes y crear solicitudes |
-| Aaron Pereyra Cabrejos | Alta | Media | Media | [Sí/No] | Rama 'feat/auth-JWT: endpoints de implementación de autenticación con JWT |
+| Aaron Pereyra Cabrejos | Alta | Media | Media | [Sí/No] | Rama `feat/auth-JWT` : endpoints de implementación de autenticación con JWT |
 
 ## 6. Video de exposición
 Video público de YouTube: 
