@@ -8,7 +8,7 @@
 | Roberto Palacios | Developer / Backend | Endpoints de usuarios (obtener por id y eliminar), pruebas HTTP y README. |
 | Giancarlo Quispe Quiroz | Developer / Backend | Endpoints de solicitudes: obtener por ID, actualizar y eliminar. |
 | [Nombre] | Developer / Backend | Endpoints de solicitudes: obtener por id y eliminar. |
-| [Nombre] | Developer / Backend | Implementación de autenticación con JWT. |
+| Aaron Pereyra| Developer / Backend | Implementación de autenticación con JWT. |
 
 ## 2. Descripción y objetivo
 **Problema:** La plataforma de gestión de solicitudes académicas necesita una API que administre usuarios y solicitudes, conserve la información entre ejecuciones del servidor y proteja el acceso a los recursos.
